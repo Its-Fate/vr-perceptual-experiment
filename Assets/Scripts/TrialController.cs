@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.IO;
+using System;
 
-public class Feature1Controller : MonoBehaviour
+public class TrialController : MonoBehaviour
 {
     // --- Configurable fields ---
     [Header("Stimulus Images")]
@@ -17,13 +15,9 @@ public class Feature1Controller : MonoBehaviour
     public Image leftEyeDisplay;
     public Image rightEyeDisplay;
 
-    [Header("Trial Data")]
-    private List<TrialData> trials = new List<TrialData>();
+    // --- Internal state ---
     private TrialData currentTrial;
     private float trialStartTime;
-    public int totalTrials = 10;
-
-    // --- Internal state ---
     private bool waitingForResponse = false;
 
     // A data structure to record each trial's data
@@ -36,25 +30,28 @@ public class Feature1Controller : MonoBehaviour
         public string timestamp;
     }
 
-    void Start()
+    // Run a single trial. FlowController will call this and collect the TrialData.
+    public IEnumerator RunTrial(int trialNumber, Action<TrialData> onFinished)
     {
-        StartCoroutine(StartTrial());
-    }
-
-    IEnumerator StartTrial()
-    {
-        //Initialize trial data
+        // Initialize trial data
         currentTrial = new TrialData
         {
-            trialNumber = trials.Count + 1,
+            trialNumber = trialNumber,
             timestamp = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")
         };
-        
-        // Show stimuli to each eye separately
-        leftEyeDisplay.sprite = images[Random.Range(0, images.Length)];
-        rightEyeDisplay.sprite = images[Random.Range(0, images.Length)];
 
-        // Reset timer
+        // Show stimuli to each eye separately
+        if (images != null && images.Length > 0)
+        {
+            leftEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
+            rightEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
+        }
+
+        // Show image and reset timer (ensure the UI has rendered first)
+        leftEyeDisplay.gameObject.SetActive(true);
+        rightEyeDisplay.gameObject.SetActive(true);
+        Canvas.ForceUpdateCanvases();
+        yield return null; // wait one frame to ensure stimuli are visible
         trialStartTime = Time.realtimeSinceStartup;
         waitingForResponse = true;
 
@@ -73,29 +70,23 @@ public class Feature1Controller : MonoBehaviour
             yield return null; // Give unity the control back to update the next frame
         }
 
-
         // Record response time
         currentTrial.responseTime = Time.realtimeSinceStartup - trialStartTime;
-        trials.Add(currentTrial);
+        Debug.Log("Trial number: " + currentTrial.trialNumber + " | Response recorded in " + currentTrial.responseTime + " seconds.");
 
-        Debug.Log("Trial number: " + currentTrial.trialNumber + " | Response rescorded in " + currentTrial.responseTime + " seconds.");
+        // Clear stimuli so pause UI is the only thing visible
+        if (leftEyeDisplay != null)
+            leftEyeDisplay.gameObject.SetActive(false);
+        if (rightEyeDisplay != null)
+            rightEyeDisplay.gameObject.SetActive(false);
 
-        // Check if we have reached the end of the experiment
-        if (trials.Count < totalTrials)
-        {
-            StartCoroutine(StartTrial());
-        }
-        else
-        {
-            SaveResults();
-            Debug.Log("Experiment completed.");
-        }
-        
+        // Return result to caller
+        onFinished?.Invoke(currentTrial);
     }
 
     public void OnLeftEyeButtonPressed()
     {
-        if (waitingForResponse)
+        if (waitingForResponse && currentTrial != null)
         {
             currentTrial.whichEye = false; // Reminder: false for left eye
             waitingForResponse = false;
@@ -104,19 +95,10 @@ public class Feature1Controller : MonoBehaviour
 
     public void OnRightEyeButtonPressed()
     {
-        if (waitingForResponse)
+        if (waitingForResponse && currentTrial != null)
         {
             currentTrial.whichEye = true; // Reminder: true for right eye
             waitingForResponse = false;
         }
-    }
-
-    // Save results to a JSON file
-    private void SaveResults()
-    {
-        string path = Path.Combine(Application.persistentDataPath, "trial_results.json");
-        string json = JsonConvert.SerializeObject(trials, Formatting.Indented);
-        File.WriteAllText(path, json);
-        Debug.Log("Results saved to: " + path);
     }
 }
