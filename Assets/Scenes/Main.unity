@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 237301237}
   - component: {fileID: 237301238}
   - component: {fileID: 237301239}
+  - component: {fileID: 237301240}
   m_Layer: 5
   m_Name: ExperimentController
   m_TagString: Untagged
@@ -247,19 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 203a46ffaffd39342880164dc2071660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  images:
-  - {fileID: 21300000, guid: c860cfee3a4653543999557fa48a4545, type: 3}
-  - {fileID: 21300000, guid: 28a5680cfca5aeb42bca53daba2309c1, type: 3}
-  - {fileID: 21300000, guid: 0220f01f3206b3e47bfe673483bef5c9, type: 3}
-  - {fileID: 21300000, guid: e124ef9f9b4a6f04986af940ca008245, type: 3}
-  - {fileID: 21300000, guid: 7e43233106570ea418581d9ca387b374, type: 3}
-  - {fileID: 21300000, guid: 991259362651399408392f15f380f8f9, type: 3}
-  - {fileID: 21300000, guid: 96d0a68e71542364a85369f0a74b85f6, type: 3}
-  - {fileID: 21300000, guid: ef4d9cf8ac9f1314d83917142bb308d6, type: 3}
-  - {fileID: 21300000, guid: d6f3eb05736420f43b7d9bda3fc6d27d, type: 3}
-  - {fileID: 21300000, guid: b26d8f27c89f72a46bc3c0d2a062251a, type: 3}
-  leftEyeDisplay: {fileID: 1231009562}
-  rightEyeDisplay: {fileID: 421770418}
+  stimulusManager: {fileID: 237301240}
 --- !u!114 &237301239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +265,31 @@ MonoBehaviour:
   totalTrials: 10
   completionMessage: {fileID: 563907927}
   pauseMessage: {fileID: 95870050}
+--- !u!114 &237301240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237301236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f0ee7c7323f5654b80ab8d5569933e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  images:
+  - {fileID: 21300000, guid: c860cfee3a4653543999557fa48a4545, type: 3}
+  - {fileID: 21300000, guid: 28a5680cfca5aeb42bca53daba2309c1, type: 3}
+  - {fileID: 21300000, guid: 0220f01f3206b3e47bfe673483bef5c9, type: 3}
+  - {fileID: 21300000, guid: e124ef9f9b4a6f04986af940ca008245, type: 3}
+  - {fileID: 21300000, guid: 7e43233106570ea418581d9ca387b374, type: 3}
+  - {fileID: 21300000, guid: 991259362651399408392f15f380f8f9, type: 3}
+  - {fileID: 21300000, guid: 96d0a68e71542364a85369f0a74b85f6, type: 3}
+  - {fileID: 21300000, guid: ef4d9cf8ac9f1314d83917142bb308d6, type: 3}
+  - {fileID: 21300000, guid: d6f3eb05736420f43b7d9bda3fc6d27d, type: 3}
+  - {fileID: 21300000, guid: b26d8f27c89f72a46bc3c0d2a062251a, type: 3}
+  leftEyeDisplay: {fileID: 1231009562}
+  rightEyeDisplay: {fileID: 421770418}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

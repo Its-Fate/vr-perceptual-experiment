@@ -6,14 +6,7 @@ using System;
 public class TrialController : MonoBehaviour
 {
     // --- Configurable fields ---
-    [Header("Stimulus Images")]
-    // To be assigned in Inspector
-    public Sprite[] images; 
-
-    [Header("UI Elements")]
-    // To be assigned in Inspector
-    public Image leftEyeDisplay;
-    public Image rightEyeDisplay;
+    public StimulusManager stimulusManager; // To be assigned in Inspector
 
     // --- Internal state ---
     private TrialData currentTrial;
@@ -51,17 +44,12 @@ public class TrialController : MonoBehaviour
         };
 
         // Show stimuli to each eye separately
-        if (images != null && images.Length > 0)
-        {
-            leftEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
-            rightEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
-        }
+        stimulusManager.ShowStimuli();
 
-        // Show image and reset timer (ensure the UI has rendered first)
-        leftEyeDisplay.gameObject.SetActive(true);
-        rightEyeDisplay.gameObject.SetActive(true);
-        Canvas.ForceUpdateCanvases();
-        yield return null; // wait one frame to ensure stimuli are visible
+        // Wait one frame to ensure stimuli are visible
+        yield return null; 
+
+        // Reset waiting state and start the timer
         trialStartTime = Time.realtimeSinceStartup;
         waitingForResponse = true;
 
@@ -82,10 +70,7 @@ public class TrialController : MonoBehaviour
         Debug.Log("Trial number: " + currentTrial.trialNumber + " | Response recorded in " + currentTrial.responseTime + " seconds.");
 
         // Clear stimuli so pause UI is the only thing visible
-        if (leftEyeDisplay != null)
-            leftEyeDisplay.gameObject.SetActive(false);
-        if (rightEyeDisplay != null)
-            rightEyeDisplay.gameObject.SetActive(false);
+        stimulusManager.HideStimuli();
 
         // Return result to caller
         onFinished?.Invoke(currentTrial);
