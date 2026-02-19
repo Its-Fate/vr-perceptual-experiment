@@ -17,8 +17,18 @@ public class TrialController : MonoBehaviour
 
     // --- Internal state ---
     private TrialData currentTrial;
+    private bool whichEye;
+    private float inputTime;
     private float trialStartTime;
     private bool waitingForResponse = false;
+
+    // --- Initialize input method ---
+    private IResponseInput responseInput;
+    private void Awake()
+    {
+        // Using keyboard input for now (can be changed to other input methods later)
+        responseInput = new KeyboardInput();
+    }
 
     // A data structure to record each trial's data
     [System.Serializable]
@@ -58,20 +68,17 @@ public class TrialController : MonoBehaviour
         // Wait for input
         while (waitingForResponse)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (responseInput.GetResponse(out bool whichEye, out float inputTime))
             {
-                OnRightEyeButtonPressed();
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                OnLeftEyeButtonPressed();
+                currentTrial.whichEye = whichEye;
+                currentTrial.responseTime = inputTime - trialStartTime;
+                waitingForResponse = false;
             }
 
             yield return null; // Give unity the control back to update the next frame
         }
 
-        // Record response time
-        currentTrial.responseTime = Time.realtimeSinceStartup - trialStartTime;
+        // Log response time
         Debug.Log("Trial number: " + currentTrial.trialNumber + " | Response recorded in " + currentTrial.responseTime + " seconds.");
 
         // Clear stimuli so pause UI is the only thing visible
@@ -82,23 +89,5 @@ public class TrialController : MonoBehaviour
 
         // Return result to caller
         onFinished?.Invoke(currentTrial);
-    }
-
-    public void OnLeftEyeButtonPressed()
-    {
-        if (waitingForResponse && currentTrial != null)
-        {
-            currentTrial.whichEye = false; // Reminder: false for left eye
-            waitingForResponse = false;
-        }
-    }
-
-    public void OnRightEyeButtonPressed()
-    {
-        if (waitingForResponse && currentTrial != null)
-        {
-            currentTrial.whichEye = true; // Reminder: true for right eye
-            waitingForResponse = false;
-        }
     }
 }
