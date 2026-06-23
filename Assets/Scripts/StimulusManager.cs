@@ -16,16 +16,18 @@ public class StimulusManager : MonoBehaviour
     // Show a different stimuli to each eye
     public void ShowStimuli()
     {
-        if (images != null && images.Length > 0)
+        if (leftEyeDisplay != null && images != null && images.Length > 0)
         {
             leftEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
             rightEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
+            
+            // Show image and update UI immidiately
+            leftEyeDisplay.gameObject.SetActive(true);
+            rightEyeDisplay.gameObject.SetActive(true);
+            Canvas.ForceUpdateCanvases();
         }
 
-        // Show image and update UI immidiately
-        leftEyeDisplay.gameObject.SetActive(true);
-        rightEyeDisplay.gameObject.SetActive(true);
-        Canvas.ForceUpdateCanvases();
+        
     }
 
     public void HideStimuli()
