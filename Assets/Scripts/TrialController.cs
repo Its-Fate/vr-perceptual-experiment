@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class TrialController : MonoBehaviour
@@ -9,11 +9,8 @@ public class TrialController : MonoBehaviour
     public StimulusManager stimulusManager; // To be assigned in Inspector
 
     // --- Internal state ---
-    private TrialData currentTrial;
-    private bool whichEye;
-    private float inputTime;
     private float trialStartTime;
-    private bool waitingForResponse = false;
+    private float trialDuration = 5f; // For now set to 10, but can be altered later
 
     // --- Initialize input method ---
     private IResponseInput responseInput;
@@ -23,56 +20,60 @@ public class TrialController : MonoBehaviour
         responseInput = new KeyboardInput();
     }
 
-    // A data structure to record each trial's data
-    [System.Serializable]
-    public class TrialData
-    {
-        public int trialNumber;
-        public bool whichEye; // true for right eye, false for left eye
-        public float responseTime;
-        public string timestamp;
-    }
 
-    // Run a single trial. FlowController will call this and collect the TrialData.
-    public IEnumerator RunTrial(int trialNumber, Action<TrialData> onFinished)
+    // Run a single trial (FlowController will call this and collect the TrialData)
+    public IEnumerator RunTrial(int trialNumber, TrialSpec spec, Action<TrialData> onFinished)
     {
-        // Initialize trial data
-        currentTrial = new TrialData
-        {
-            trialNumber = trialNumber,
-            timestamp = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")
-        };
-
-        // Show stimuli to each eye separately
+        // Show different stimuli to each eye
+        stimulusManager.SetTrialParameters(spec);
         stimulusManager.ShowStimuli();
 
         // Wait one frame to ensure stimuli are visible
         yield return null; 
 
-        // Reset waiting state and start the timer
+        // Start the timer
         trialStartTime = Time.realtimeSinceStartup;
-        waitingForResponse = true;
 
-        // Wait for input
-        while (waitingForResponse)
+        // Initialize a new list of LogEntries
+        List<TrialData.LogEntry> logEntries = new List<TrialData.LogEntry>();
+
+        // Set previous state
+        string previousState = "none";
+
+        // Wait for the trial duration to end
+        while (Time.realtimeSinceStartup - trialStartTime < trialDuration)
         {
-            if (responseInput.GetResponse(out bool whichEye, out float inputTime))
+            string currentState = GetCurrentStateFromInput();
+
+            if (currentState != previousState)
             {
-                currentTrial.whichEye = whichEye;
-                currentTrial.responseTime = inputTime - trialStartTime;
-                waitingForResponse = false;
+                float timestamp = Time.realtimeSinceStartup - trialStartTime;
+                logEntries.Add(new TrialData.LogEntry {time = timestamp, state = currentState});
+                previousState = currentState;
             }
 
             yield return null; // Give unity the control back to update the next frame
         }
 
-        // Log response time
-        Debug.Log("Trial number: " + currentTrial.trialNumber + " | Response recorded in " + currentTrial.responseTime + " seconds.");
-
-        // Clear stimuli so pause UI is the only thing visible
+        // Clear stimuli
         stimulusManager.HideStimuli();
 
+        // Initialize a new TrialData
+        TrialData data = new TrialData
+        {
+            trialNumber = trialNumber,
+            spec = spec,
+            startTime = trialStartTime,
+            logEntries = logEntries
+        };
+
         // Return result to caller
-        onFinished?.Invoke(currentTrial);
+        onFinished?.Invoke(data);
+    }
+
+    // Current state can be "up", "down", "left", "right", and "none"
+    private string GetCurrentStateFromInput()
+    {
+        return responseInput.GetCurrentState();
     }
 }

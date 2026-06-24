@@ -277,19 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0ee7c7323f5654b80ab8d5569933e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  images:
-  - {fileID: 21300000, guid: c860cfee3a4653543999557fa48a4545, type: 3}
-  - {fileID: 21300000, guid: 28a5680cfca5aeb42bca53daba2309c1, type: 3}
-  - {fileID: 21300000, guid: 0220f01f3206b3e47bfe673483bef5c9, type: 3}
-  - {fileID: 21300000, guid: e124ef9f9b4a6f04986af940ca008245, type: 3}
-  - {fileID: 21300000, guid: 7e43233106570ea418581d9ca387b374, type: 3}
-  - {fileID: 21300000, guid: 991259362651399408392f15f380f8f9, type: 3}
-  - {fileID: 21300000, guid: 96d0a68e71542364a85369f0a74b85f6, type: 3}
-  - {fileID: 21300000, guid: ef4d9cf8ac9f1314d83917142bb308d6, type: 3}
-  - {fileID: 21300000, guid: d6f3eb05736420f43b7d9bda3fc6d27d, type: 3}
-  - {fileID: 21300000, guid: b26d8f27c89f72a46bc3c0d2a062251a, type: 3}
-  leftEyeDisplay: {fileID: 0}
-  rightEyeDisplay: {fileID: 0}
+  leftStimulus: {fileID: 2022327113}
+  rightStimulus: {fileID: 336541601}
 --- !u!1 &336541601
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   frequency: 10
-  constrast: 1
+  contrast: 1
   direction: {x: -1, y: 0}
 --- !u!1 &410087039
 GameObject:
@@ -1513,7 +1502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   frequency: 10
-  constrast: 1
+  contrast: 1
   direction: {x: 1, y: 0}
 --- !u!1 &2030269932
 GameObject:

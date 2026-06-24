@@ -1,4 +1,4 @@
 public interface IResponseInput
 {
-    public bool GetResponse(out bool whichEye, out float inputTime);
+    public string GetCurrentState(); // Returns "up", "down", "left", "right", and "none"
 }

@@ -6,7 +6,7 @@ public class GratingController : MonoBehaviour
     [Header("Grating Parameters")]
     public float speed = 1.0f;
     public float frequency = 10f;
-    public float constrast = 1.0f;
+    public float contrast = 1.0f;
     public Vector2 direction = new Vector2(1, 0);
 
     private MaterialPropertyBlock mpb;
@@ -31,7 +31,7 @@ public class GratingController : MonoBehaviour
             rend.GetPropertyBlock(mpb);
             mpb.SetFloat("_Speed", speed);
             mpb.SetFloat("_Frequency", frequency);
-            mpb.SetFloat("_Contrast", constrast);
+            mpb.SetFloat("_Contrast", contrast);
             mpb.SetVector("_Direction", direction);
             rend.SetPropertyBlock(mpb);
         }
@@ -39,30 +39,5 @@ public class GratingController : MonoBehaviour
         {
             return;
         }
-    }
-
-    // Call these functions from other scripts to change the parameters dynamically
-    public void SetSpeed(float newSpeed)
-    {
-        speed = newSpeed;
-        UpdateGrating();
-    }
-
-    public void SetFrequency(float newFrequency)
-    {
-        frequency = newFrequency;
-        UpdateGrating();
-    }
-
-    public void SetContrast(float newContrast)
-    {
-        constrast = newContrast;
-        UpdateGrating();
-    }
-
-    public void SetDirection(Vector2 newDirection)
-    {
-        direction = newDirection;
-        UpdateGrating();
     }
 }

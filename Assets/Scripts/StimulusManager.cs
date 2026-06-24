@@ -4,38 +4,56 @@ using UnityEngine.UI;
 public class StimulusManager : MonoBehaviour
 {
     // --- Configurable fields ---
-    [Header("Stimulus Images")]
+    [Header("Grating Objects")]
     // To be assigned in Inspector
-    public Sprite[] images; 
+    public GameObject leftStimulus; 
+    public GameObject rightStimulus;
 
-    [Header("UI Elements")]
-    // To be assigned in Inspector
-    public Image leftEyeDisplay;
-    public Image rightEyeDisplay;
+    private GratingController leftGrating;
+    private GratingController rightGrating;
 
-    // Show a different stimuli to each eye
-    public void ShowStimuli()
+    void Start()
     {
-        if (leftEyeDisplay != null && images != null && images.Length > 0)
-        {
-            leftEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
-            rightEyeDisplay.sprite = images[UnityEngine.Random.Range(0, images.Length)];
-            
-            // Show image and update UI immidiately
-            leftEyeDisplay.gameObject.SetActive(true);
-            rightEyeDisplay.gameObject.SetActive(true);
-            Canvas.ForceUpdateCanvases();
-        }
-
-        
+        if (leftStimulus != null)
+            leftGrating =  leftStimulus.GetComponent<GratingController>();
+        if (rightStimulus != null)
+            rightGrating = rightStimulus.GetComponent<GratingController>();
     }
 
+    // Update the parameters of the gratings based on the trial specification 
+    public void SetTrialParameters(TrialSpec spec)
+    {
+        if (leftGrating != null)
+        {
+            leftGrating.speed = spec.speedL;
+            leftGrating.direction = spec.directionL;
+            leftGrating.contrast = spec.contrastL;
+            leftGrating.frequency = spec.frequencyL;
+        }
+        if (rightGrating != null)
+        {
+            rightGrating.speed = spec.speedR;
+            rightGrating.direction = spec.directionR;
+            rightGrating.contrast = spec.contrastR;
+            rightGrating.frequency = spec.frequencyR;
+        }
+    }
+
+    // Display the stimuli by enabling the GameObjects
+    public void ShowStimuli()
+    {
+        if (leftStimulus != null)
+            leftStimulus.SetActive(true);
+        if (rightStimulus != null)
+            rightStimulus.SetActive(true);
+    }
+
+    // Hide the stimuli by disabling the GameObjects
     public void HideStimuli()
     {
-        if (leftEyeDisplay != null && rightEyeDisplay != null) 
-        {
-            leftEyeDisplay.gameObject.SetActive(false);
-            rightEyeDisplay.gameObject.SetActive(false);
-        }
+        if (leftStimulus != null)
+            leftStimulus.SetActive(false);
+        if (rightStimulus != null)
+            rightStimulus.SetActive(false);
     }
 }
