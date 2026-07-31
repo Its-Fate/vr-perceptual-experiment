@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trialController: {fileID: 237301238}
-  totalTrials: 10
+  totalTrials: 3
   completionMessage: {fileID: 563907927}
   pauseMessage: {fileID: 95870050}
 --- !u!114 &237301240
@@ -401,10 +401,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681d901576ff0947a08e59678bec3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  frequency: 10
+  speed: 5
+  frequency: 40
   contrast: 1
   direction: {x: -1, y: 0}
+  gaussianSharpness: 10
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,10 +1501,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681d901576ff0947a08e59678bec3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  frequency: 10
+  speed: 5
+  frequency: 40
   contrast: 1
   direction: {x: 1, y: 0}
+  gaussianSharpness: 10
 --- !u!1 &2030269932
 GameObject:
   m_ObjectHideFlags: 0

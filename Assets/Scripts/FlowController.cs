@@ -10,7 +10,8 @@ public class FlowController : MonoBehaviour
     [Header("References")]
     // To be assigned in Inspector
     public TrialController trialController;
-    public int totalTrials = 10; // For now set to 10, but can be altered later to the count of all the variation of specs generated
+    public int totalTrials = 3; // For now set to 3, but can be altered later to the count of all the variation of specs generated
+    // TODO: public int totalTrials = trialSpecs.Count; in line 40
 
     // UI text to show on completion
     public Text completionMessage; 
@@ -44,11 +45,11 @@ public class FlowController : MonoBehaviour
         if (pauseMessage != null)
             pauseMessage.gameObject.SetActive(false);
 
-        for (int i = 1; i <= totalTrials; i++)
+        for (int i = 0; i < totalTrials; i++)
         {
             bool finished = false;
             // Run the trial and collect result via callback
-            yield return StartCoroutine(trialController.RunTrial(i, trialSpecs[i], (data) =>
+            yield return StartCoroutine(trialController.RunTrial(i + 1, trialSpecs[i], (data) =>
             {
                 allTrialData.Add(data);
                 finished = true;
@@ -59,7 +60,7 @@ public class FlowController : MonoBehaviour
                 yield return null;
 
             // If this is not the last trial, show pause message and wait for any key
-            if (i < totalTrials)
+            if (i < totalTrials - 1)
             {
                 if (pauseMessage != null)
                 {
@@ -94,67 +95,69 @@ public class FlowController : MonoBehaviour
     {
         List<TrialSpec> trialList = new List<TrialSpec>();
 
-        // Possible parameter values
-        float[] speeds = {1f, 5f};
-        Vector2[] directions = {new Vector2(1, 0), new Vector2(0, 1)};
-        float[] contrasts = {0.5f, 1f};
-        float[] frequencies = {5f, 15f};
+        // 4 direction combination
+        Vector2 left = new Vector2(-1, 0);
+        Vector2 right = new Vector2(1, 0);
+        
+        Vector2[] leftDirections = {right, left, right, left};
+        Vector2[] rightDirections = {right, left, left, right};
 
-        // Generate all 16 combonations
-        foreach (float s in speeds)
+        // Repetition per condition (direction)
+        int repetitions = 15;
+
+        for (int rep = 0; rep < repetitions; rep++)
         {
-            foreach (Vector2 d in directions)
+            for (int cond = 0; cond < 4; cond++)
             {
-                foreach (float c in contrasts)
-                {
-                    foreach (float f in frequencies)
-                    {
-                        TrialSpec spec = new TrialSpec();
+                // Randomize speed, contrast, frequency, and Gaussian sharpness
+                TrialSpec spec = new TrialSpec();
 
-                        // Set left eye parameters
-                        spec.speedL = s;
-                        spec.directionL = d;
-                        spec.contrastL = c;
-                        spec.frequencyL = f;
+                // Left Eye
+                spec.directionL = leftDirections[cond];
+                spec.speedL = Random.Range(5f, 10f);
+                spec.contrastL = Random.Range(0.8f, 1.2f);
+                spec.frequencyL = Random.Range(30f, 50f);
+                spec.gaussianSharpnessL = Random.Range(5f, 15f);
 
-                        // Set right eye parameters (for now opposite of left eye parameters)
-                        spec.speedR = (s == speeds[0]) ? speeds[1] : speeds[0];
-                        spec.directionR = (d == directions[0]) ? directions[1] : directions[0];
-                        spec.contrastR = (c == contrasts[0]) ? contrasts[1] : contrasts[0];
-                        spec.frequencyR = (f == frequencies[0]) ? frequencies[1] : frequencies[0];
-                        spec.isControl = false;
+                // Right Eye
+                spec.directionR = rightDirections[cond];
+                spec.speedR = Random.Range(5f, 10f);
+                spec.contrastR = Random.Range(0.8f, 1.2f);
+                spec.frequencyR = Random.Range(30f, 50f);
+                spec.gaussianSharpnessR = Random.Range(5f, 15f);
 
-                        trialList.Add(spec);
-                    }
-                }
+                spec.isControl = (leftDirections[cond] == rightDirections[cond]);
+
+                trialList.Add(spec);
             }
         }
+        
 
-        int controlNum = 4;
-        // Add control trials (both eyes have identical parameters)
-        for (int i = 0; i < controlNum; i++)
-        {
-            // Choose parameters randomly
-            TrialSpec control_spec = new TrialSpec();
-            float s = speeds[Random.Range(0, speeds.Length)];
-            Vector2 d = directions[Random.Range(0, directions.Length)];
-            float c = contrasts[Random.Range(0, contrasts.Length)];
-            float f = frequencies[Random.Range(0, frequencies.Length)];
+        // int controlNum = 4;
+        // // Add control trials (both eyes have identical parameters)
+        // for (int i = 0; i < controlNum; i++)
+        // {
+        //     // Choose parameters randomly
+        //     TrialSpec control_spec = new TrialSpec();
+        //     float s = speeds[Random.Range(0, speeds.Length)];
+        //     Vector2 d = directions[Random.Range(0, directions.Length)];
+        //     float c = contrasts[Random.Range(0, contrasts.Length)];
+        //     float f = frequencies[Random.Range(0, frequencies.Length)];
             
-            // Left eye parameters
-            control_spec.speedL = s;
-            control_spec.directionL = d;
-            control_spec.contrastL = c;
-            control_spec.frequencyL = f;
+        //     // Left eye parameters
+        //     control_spec.speedL = s;
+        //     control_spec.directionL = d;
+        //     control_spec.contrastL = c;
+        //     control_spec.frequencyL = f;
 
-            // Right eye parameters
-            control_spec.speedR = s;
-            control_spec.directionR = d;
-            control_spec.contrastR = c;
-            control_spec.frequencyR = f;
+        //     // Right eye parameters
+        //     control_spec.speedR = s;
+        //     control_spec.directionR = d;
+        //     control_spec.contrastR = c;
+        //     control_spec.frequencyR = f;
 
-            trialList.Add(control_spec);
-        }
+        //     trialList.Add(control_spec);
+        // }
 
         // Shuffle the generated list of trial specs (Fisher-Yates algorithm was used)
         for (int i = 0; i < trialList.Count; i++)

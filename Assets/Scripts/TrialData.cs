@@ -12,6 +12,6 @@ public class TrialData
     public class LogEntry
     {
         public float time; // Time since the start of the trial
-        public string state; // "up", "down", "left", "right", "none"
+        public string state; // "left", "right", "none"
     }
 }

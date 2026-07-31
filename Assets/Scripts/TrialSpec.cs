@@ -8,12 +8,14 @@ public class TrialSpec
     public Vector2 directionL;
     public float contrastL;
     public float frequencyL;
+    public float gaussianSharpnessL;
 
     // Right Eye Parameters
     public float speedR;
     public Vector2 directionR;
     public float contrastR;
     public float frequencyR;
+    public float gaussianSharpnessR;
 
     // Control flag (if true, the parameters for both eyes will be identical)
     public bool isControl;

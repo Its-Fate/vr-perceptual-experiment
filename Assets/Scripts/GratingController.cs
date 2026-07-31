@@ -4,10 +4,11 @@ using UnityEngine;
 public class GratingController : MonoBehaviour
 {
     [Header("Grating Parameters")]
-    public float speed = 1.0f;
-    public float frequency = 10f;
+    public float speed = 5.0f;
+    public float frequency = 40f;
     public float contrast = 1.0f;
     public Vector2 direction = new Vector2(1, 0);
+    public float gaussianSharpness = 10f;
 
     private MaterialPropertyBlock mpb;
     private Renderer rend;
@@ -33,6 +34,7 @@ public class GratingController : MonoBehaviour
             mpb.SetFloat("_Frequency", frequency);
             mpb.SetFloat("_Contrast", contrast);
             mpb.SetVector("_Direction", direction);
+            mpb.SetFloat("_GaussianSharpness", gaussianSharpness);
             rend.SetPropertyBlock(mpb);
         }
         else

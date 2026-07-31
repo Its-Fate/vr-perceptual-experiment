@@ -1,4 +1,4 @@
 public interface IResponseInput
 {
-    public string GetCurrentState(); // Returns "up", "down", "left", "right", and "none"
+    public string GetCurrentState(); // Returns "left", "right", and "none"
 }

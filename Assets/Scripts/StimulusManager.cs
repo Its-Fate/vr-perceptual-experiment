@@ -29,6 +29,7 @@ public class StimulusManager : MonoBehaviour
             leftGrating.direction = spec.directionL;
             leftGrating.contrast = spec.contrastL;
             leftGrating.frequency = spec.frequencyL;
+            leftGrating.gaussianSharpness = spec.gaussianSharpnessL;
         }
         if (rightGrating != null)
         {
@@ -36,6 +37,7 @@ public class StimulusManager : MonoBehaviour
             rightGrating.direction = spec.directionR;
             rightGrating.contrast = spec.contrastR;
             rightGrating.frequency = spec.frequencyR;
+            rightGrating.gaussianSharpness = spec.gaussianSharpnessR;
         }
     }
 
