@@ -5,10 +5,10 @@ public class GratingController : MonoBehaviour
 {
     [Header("Grating Parameters")]
     public float speed = 5.0f;
-    public float frequency = 40f;
+    public float frequency = 80f;
     public float contrast = 1.0f;
     public Vector2 direction = new Vector2(1, 0);
-    public float gaussianSharpness = 10f;
+    public float gaussianSharpness = 40f;
 
     private MaterialPropertyBlock mpb;
     private Renderer rend;

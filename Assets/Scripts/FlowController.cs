@@ -116,15 +116,15 @@ public class FlowController : MonoBehaviour
                 spec.directionL = leftDirections[cond];
                 spec.speedL = Random.Range(5f, 10f);
                 spec.contrastL = Random.Range(0.8f, 1.2f);
-                spec.frequencyL = Random.Range(30f, 50f);
-                spec.gaussianSharpnessL = Random.Range(5f, 15f);
+                spec.frequencyL = Random.Range(80f, 100f);
+                spec.gaussianSharpnessL = Random.Range(40f, 50f);
 
                 // Right Eye
                 spec.directionR = rightDirections[cond];
                 spec.speedR = Random.Range(5f, 10f);
                 spec.contrastR = Random.Range(0.8f, 1.2f);
-                spec.frequencyR = Random.Range(30f, 50f);
-                spec.gaussianSharpnessR = Random.Range(5f, 15f);
+                spec.frequencyR = Random.Range(80f, 100f);
+                spec.gaussianSharpnessR = Random.Range(40f, 50f);
 
                 spec.isControl = (leftDirections[cond] == rightDirections[cond]);
 
