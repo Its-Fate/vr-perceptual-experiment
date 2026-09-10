@@ -7,10 +7,12 @@ public class TrialController : MonoBehaviour
 {
     // --- Configurable fields ---
     public StimulusManager stimulusManager; // To be assigned in Inspector
+    public int taskType = 1; // Can be 1, 2, 3, or 4 (for now, default to 1)
 
     // --- Internal state ---
     private float trialStartTime;
-    private float trialDuration = 5f; // For now set to 10, but can be altered later
+    private float trialDuration = 10f; // For now set to 10 (TODO: maybe 60 seconds later)
+    private float restDuration = 5f;
 
     // --- Initialize input method ---
     private IResponseInput responseInput;
@@ -40,23 +42,50 @@ public class TrialController : MonoBehaviour
         // Set previous state
         string previousState = "none";
 
-        // Wait for the trial duration to end
-        while (Time.realtimeSinceStartup - trialStartTime < trialDuration)
+        // Task routing: task 1 and task 2 (holding)
+        if (taskType == 1 || taskType == 2)
         {
-            string currentState = GetCurrentStateFromInput();
-
-            if (currentState != previousState)
+            // Wait for the trial duration to end
+            while (Time.realtimeSinceStartup - trialStartTime < trialDuration)
             {
-                float timestamp = Time.realtimeSinceStartup - trialStartTime;
-                logEntries.Add(new TrialData.LogEntry {time = timestamp, state = currentState});
-                previousState = currentState;
-            }
+                string currentState = responseInput.GetCurrentState();
 
-            yield return null; // Give unity the control back to update the next frame
+                if (currentState != previousState)
+                {
+                    float timestamp = Time.realtimeSinceStartup - trialStartTime;
+                    logEntries.Add(new TrialData.LogEntry {time = timestamp, state = currentState});
+                    previousState = currentState;
+                }
+
+                yield return null; // Give unity the control back to update the next frame
+            }
+        }
+        // Task routing: task 3 and task 4 (tapping)
+        else if (taskType == 3 || taskType == 4)
+        {
+            // Wait for the trial duration to end
+            while (Time.realtimeSinceStartup - trialStartTime < trialDuration)
+            {
+                string currentKeyDown = responseInput.GetCurrentKeyDown();
+
+                if (currentKeyDown != "none")
+                {
+                    float timestamp = Time.realtimeSinceStartup - trialStartTime;
+                    logEntries.Add(new TrialData.LogEntry {time = timestamp, state = currentKeyDown});
+                }
+
+                yield return null; // Give unity the control back to update the next frame
+            }
         }
 
-        // Clear stimuli
+        // Hide stimuli
         stimulusManager.HideStimuli();
+
+        // Double-click scrubbing: remove consecutive identical dominance logs (only for task 3 and task 4)
+        if (taskType == 3 || taskType == 4)
+        {
+            logEntries = ScrubDoubleClicks(logEntries);
+        }
 
         // Initialize a new TrialData
         TrialData data = new TrialData
@@ -64,16 +93,27 @@ public class TrialController : MonoBehaviour
             trialNumber = trialNumber,
             spec = spec,
             startTime = trialStartTime,
-            logEntries = logEntries
+            logEntries = logEntries,
+            taskType = taskType
         };
 
         // Return result to caller
         onFinished?.Invoke(data);
     }
 
-    // Current state can be "up", "down", "left", "right", and "none"
-    private string GetCurrentStateFromInput()
+    private List<TrialData.LogEntry> ScrubDoubleClicks(List<TrialData.LogEntry> entries)
     {
-        return responseInput.GetCurrentState();
+        List<TrialData.LogEntry> scrubbed = new List<TrialData.LogEntry>();
+        string lastState = "none";
+
+        foreach (var entry in entries)
+        {
+            if (entry.state != lastState || entry.state == "piecemeal") // Keep piecemeal entries even if they are consecutive
+            {
+                scrubbed.Add(entry);
+                lastState = entry.state;
+            }
+        }
+        return scrubbed;
     }
 }
