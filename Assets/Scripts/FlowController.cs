@@ -18,8 +18,6 @@ public class FlowController : MonoBehaviour
 
     // UI text to show on completion
     public Text completionMessage; 
-    // UI text to show between trials
-    public Text pauseMessage;
 
     private List<TrialData> allTrialData = new List<TrialData>();
 
@@ -46,10 +44,6 @@ public class FlowController : MonoBehaviour
 
         Debug.Log($"Starting experiment with {totalTrials} trials.");
 
-        // Ensure pause UI is hidden at start
-        if (pauseMessage != null)
-            pauseMessage.gameObject.SetActive(false);
-
         for (int i = 0; i < totalTrials; i++)
         {
             bool finished = false;
@@ -67,25 +61,15 @@ public class FlowController : MonoBehaviour
             // If this is not the last trial, show pause message and wait for any key
             if (i < totalTrials - 1)
             {
-                if (pauseMessage != null)
-                {
-                    pauseMessage.text = "Next trial in 5...";
-                    pauseMessage.gameObject.SetActive(true);
-                }
+                Debug.Log("Next trial in 5...");
 
                 float restTimer = 5f;
                 while (restTimer > 0)
                 {
                     restTimer -= Time.deltaTime;
-                    if (pauseMessage != null)
-                    {
-                        pauseMessage.text = $"Next trial in {Mathf.CeilToInt(restTimer)}...";
-                    }
+                    Debug.Log($"Next trial in {Mathf.CeilToInt(restTimer)}...");
                     yield return null;
                 }
-
-                if (pauseMessage != null)
-                    pauseMessage.gameObject.SetActive(false);
 
                 // give one frame for UI to update before next trial
                 yield return null;
@@ -169,10 +153,10 @@ public class FlowController : MonoBehaviour
 
                 spec.speedL = 5f;
                 spec.speedR = 5f;
-                spec.frequencyL = 1.15f;
-                spec.frequencyR = 1.15f;
-                spec.gaussianSharpnessL = 82f;
-                spec.gaussianSharpnessR = 82f;
+                spec.frequencyL = 10f;
+                spec.frequencyR = 10f;
+                spec.gaussianSharpnessL = 80f;
+                spec.gaussianSharpnessR = 80f;
                 spec.isControl = (spec.directionL == spec.directionR); // Control if both directions are the same
 
                 trialList.Add(spec);
@@ -206,11 +190,15 @@ public class FlowController : MonoBehaviour
         string json = JsonConvert.SerializeObject(allTrialData, settings);
         try {File.WriteAllText(path, json);
         Debug.Log("Results saved to: " + path);}
-        catch (Exception e) {Debug.LogError("Failed to save results: " + e.Message);}
+        catch (System.Exception e) {Debug.LogError("Failed to save results: " + e.Message);}
     }
 
     private IEnumerator ShowCompletionAndClose()
     {
+        // Hide the stimuli at the end of the experiment
+        trialController.stimulusManager.leftStimulus.SetActive(false);
+        trialController.stimulusManager.rightStimulus.SetActive(false);
+
         // Display completion message if UI element exists
         if (completionMessage != null)
         {

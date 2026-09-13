@@ -11,7 +11,6 @@ public class TrialController : MonoBehaviour
     // --- Internal state ---
     private float trialStartTime;
     private float trialDuration = 10f; // For now set to 10 (TODO: maybe 60 seconds later)
-    private float restDuration = 5f;
 
     // --- Initialize input method ---
     private IResponseInput responseInput;

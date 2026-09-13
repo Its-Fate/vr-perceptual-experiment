@@ -59,12 +59,12 @@ public class StimulusManager : MonoBehaviour
             rightStimulus.SetActive(true);
     }
 
-    // Hide the stimuli by disabling the GameObjects
+    // Hide the stimuli by making it gray (contrast = 0)
     public void HideStimuli()
     {
         if (leftStimulus != null)
-            leftStimulus.SetActive(false);
+            leftGrating.contrast = 0f;
         if (rightStimulus != null)
-            rightStimulus.SetActive(false);
+            rightGrating.contrast = 0f;
     }
 }
