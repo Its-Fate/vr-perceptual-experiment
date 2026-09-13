@@ -18,6 +18,15 @@ public class StimulusManager : MonoBehaviour
             leftGrating =  leftStimulus.GetComponent<GratingController>();
         if (rightStimulus != null)
             rightGrating = rightStimulus.GetComponent<GratingController>();
+
+        #if UNITY_ANDROID && !UNITY_EDITOR
+            // VR headset: set distance to 200mm (0.2 units)
+            if (leftStimulus != null && rightStimulus != null)
+            {
+                leftStimulus.transform.position = new Vector3(-1.5f, 0, 0.2f);
+                rightStimulus.transform.position = new Vector3(1.5f, 0, 0.2f);
+            }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+        #endif
     }
 
     // Update the parameters of the gratings based on the trial specification 

@@ -7,7 +7,6 @@ public class TrialController : MonoBehaviour
 {
     // --- Configurable fields ---
     public StimulusManager stimulusManager; // To be assigned in Inspector
-    public int taskType = 1; // Can be 1, 2, 3, or 4 (for now, default to 1)
 
     // --- Internal state ---
     private float trialStartTime;
@@ -24,7 +23,7 @@ public class TrialController : MonoBehaviour
 
 
     // Run a single trial (FlowController will call this and collect the TrialData)
-    public IEnumerator RunTrial(int trialNumber, TrialSpec spec, Action<TrialData> onFinished)
+    public IEnumerator RunTrial(int trialNumber, TrialSpec spec, int taskType, Action<TrialData> onFinished)
     {
         // Show different stimuli to each eye
         stimulusManager.SetTrialParameters(spec);

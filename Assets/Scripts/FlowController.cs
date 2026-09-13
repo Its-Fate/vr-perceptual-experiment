@@ -13,6 +13,9 @@ public class FlowController : MonoBehaviour
     public int totalTrials = 3; // For now set to 3, but can be altered later to the count of all the variation of specs generated
     // TODO: public int totalTrials = trialSpecs.Count; in line 40
 
+    [Range(1, 4)]
+    public int taskType = 1; // Can be 1, 2, 3, or 4 (for now, default to 1)
+
     // UI text to show on completion
     public Text completionMessage; 
     // UI text to show between trials
@@ -27,6 +30,8 @@ public class FlowController : MonoBehaviour
 
     private IEnumerator RunExperiment()
     {
+        yield return null; // Wait one frame to ensure all references are set
+        
         if (trialController == null)
         {
             Debug.LogError("TrialController reference not set on FlowController.");
@@ -39,7 +44,7 @@ public class FlowController : MonoBehaviour
         List<TrialSpec> trialSpecs = GenerateTrialList();
         // TODO: int totalTrials = trialSpecs.Count;
 
-        Debug.Log($"Starting expriment with {totalTrials} trials.");
+        Debug.Log($"Starting experiment with {totalTrials} trials.");
 
         // Ensure pause UI is hidden at start
         if (pauseMessage != null)
@@ -49,7 +54,7 @@ public class FlowController : MonoBehaviour
         {
             bool finished = false;
             // Run the trial and collect result via callback
-            yield return StartCoroutine(trialController.RunTrial(i + 1, trialSpecs[i], (data) =>
+            yield return StartCoroutine(trialController.RunTrial(i + 1, trialSpecs[i], this.taskType, (data) =>
             {
                 allTrialData.Add(data);
                 finished = true;
@@ -64,17 +69,20 @@ public class FlowController : MonoBehaviour
             {
                 if (pauseMessage != null)
                 {
-                    pauseMessage.text = "Trial complete.\nPress any key to continue.";
+                    pauseMessage.text = "Next trial in 5...";
                     pauseMessage.gameObject.SetActive(true);
                 }
 
-                while (!Input.anyKeyDown)
+                float restTimer = 5f;
+                while (restTimer > 0)
+                {
+                    restTimer -= Time.deltaTime;
+                    if (pauseMessage != null)
+                    {
+                        pauseMessage.text = $"Next trial in {Mathf.CeilToInt(restTimer)}...";
+                    }
                     yield return null;
-
-                // Consume the frame with the keydown and wait for release to avoid carryover
-                yield return null;
-                while (Input.anyKey)
-                    yield return null;
+                }
 
                 if (pauseMessage != null)
                     pauseMessage.gameObject.SetActive(false);
@@ -95,69 +103,83 @@ public class FlowController : MonoBehaviour
     {
         List<TrialSpec> trialList = new List<TrialSpec>();
 
-        // 4 direction combination
-        Vector2 left = new Vector2(-1, 0);
-        Vector2 right = new Vector2(1, 0);
+        // Contrast levels for the stimuli
+        float[] contrastLevels = {0.1f, 0.3f, 0.5f, 0.7f, 0.9f};
+        float baseContrast = 0.5f; // Base contrast for the other eye (Tasks 1, 2, 3)
+
+        // Direction of movement vectors (0/90/45/-45 degrees)
+        Vector2[,] movements = new Vector2[4, 2]
+        {
+            { new Vector2(0, 1), new Vector2(0, -1) },                          // Horizontal
+            { new Vector2(1, 0), new Vector2(-1, 0) },                          // Vertical
+            { new Vector2(-1, 1).normalized, new Vector2(1, -1).normalized },   // Right Diagonal
+            { new Vector2(1, 1).normalized, new Vector2(-1, -1).normalized }    // Left Diagonal
+        };
         
-        Vector2[] leftDirections = {right, left, right, left};
-        Vector2[] rightDirections = {right, left, left, right};
+        // Orientation pairs
+        int[,] conditions = new int[10, 2]
+        {
+            // Controls (4)
+            { 0, 0 }, // H vs H
+            { 1, 1 }, // V vs V
+            { 2, 2 }, // RD vs RD
+            { 3, 3 }, // LD vs LD
+            
+            // Rivalry (6)
+            { 0, 1 }, // H vs V
+            { 2, 3 }, // RD vs LD
+            { 0, 2 }, // H vs RD
+            { 0, 3 }, // H vs LD
+            { 1, 2 }, // V vs RD
+            { 1, 3 }  // V vs LD
+        };
 
         // Repetition per condition (direction)
-        int repetitions = 15;
+        // int repetitions = 15;
 
-        for (int rep = 0; rep < repetitions; rep++)
+        for (int cond = 0; cond < conditions.GetLength(0); cond++)
         {
-            for (int cond = 0; cond < 4; cond++)
+            int leftOrientation = conditions[cond, 0];
+            int rightOrientation = conditions[cond, 1];
+
+            foreach (float contrast in contrastLevels)
             {
-                // Randomize speed, contrast, frequency, and Gaussian sharpness
                 TrialSpec spec = new TrialSpec();
 
-                // Left Eye
-                spec.directionL = leftDirections[cond];
-                spec.speedL = Random.Range(5f, 10f);
-                spec.contrastL = Random.Range(0.8f, 1.2f);
-                spec.frequencyL = Random.Range(80f, 100f);
-                spec.gaussianSharpnessL = Random.Range(40f, 50f);
+                // Movement directions per eye (which are perpendicular to the orientation)
+                int leftMoveIdx = Random.Range(0, 2);
+                int rightMoveIdx = Random.Range(0, 2);
 
-                // Right Eye
-                spec.directionR = rightDirections[cond];
-                spec.speedR = Random.Range(5f, 10f);
-                spec.contrastR = Random.Range(0.8f, 1.2f);
-                spec.frequencyR = Random.Range(80f, 100f);
-                spec.gaussianSharpnessR = Random.Range(40f, 50f);
+                spec.directionL = movements[leftOrientation, leftMoveIdx];
+                spec.directionR = movements[rightOrientation, rightMoveIdx];
 
-                spec.isControl = (leftDirections[cond] == rightDirections[cond]);
+                // Levelt contrast manipulation
+                if (taskType == 1 || taskType == 2 || taskType == 3)
+                {
+                    // Unilateral: left fixed, right varies
+                    spec.contrastL = baseContrast;
+                    spec.contrastR = contrast;
+                }
+                else if (taskType == 4)
+                {
+                    // Bilateral: both vary together
+                    spec.contrastL = contrast;
+                    spec.contrastR = contrast;
+                }
+
+                spec.speedL = 5f;
+                spec.speedR = 5f;
+                spec.frequencyL = 1.15f;
+                spec.frequencyR = 1.15f;
+                spec.gaussianSharpnessL = 82f;
+                spec.gaussianSharpnessR = 82f;
+                spec.isControl = (spec.directionL == spec.directionR); // Control if both directions are the same
 
                 trialList.Add(spec);
             }
         }
         
-
-        // int controlNum = 4;
-        // // Add control trials (both eyes have identical parameters)
-        // for (int i = 0; i < controlNum; i++)
-        // {
-        //     // Choose parameters randomly
-        //     TrialSpec control_spec = new TrialSpec();
-        //     float s = speeds[Random.Range(0, speeds.Length)];
-        //     Vector2 d = directions[Random.Range(0, directions.Length)];
-        //     float c = contrasts[Random.Range(0, contrasts.Length)];
-        //     float f = frequencies[Random.Range(0, frequencies.Length)];
-            
-        //     // Left eye parameters
-        //     control_spec.speedL = s;
-        //     control_spec.directionL = d;
-        //     control_spec.contrastL = c;
-        //     control_spec.frequencyL = f;
-
-        //     // Right eye parameters
-        //     control_spec.speedR = s;
-        //     control_spec.directionR = d;
-        //     control_spec.contrastR = c;
-        //     control_spec.frequencyR = f;
-
-        //     trialList.Add(control_spec);
-        // }
+        
 
         // Shuffle the generated list of trial specs (Fisher-Yates algorithm was used)
         for (int i = 0; i < trialList.Count; i++)
@@ -182,8 +204,9 @@ public class FlowController : MonoBehaviour
             Formatting = Formatting.Indented
         };
         string json = JsonConvert.SerializeObject(allTrialData, settings);
-        File.WriteAllText(path, json);
-        Debug.Log("Results saved to: " + path);
+        try {File.WriteAllText(path, json);
+        Debug.Log("Results saved to: " + path);}
+        catch (Exception e) {Debug.LogError("Failed to save results: " + e.Message);}
     }
 
     private IEnumerator ShowCompletionAndClose()

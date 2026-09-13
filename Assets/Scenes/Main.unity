@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stimulusManager: {fileID: 237301240}
+  taskType: 1
 --- !u!114 &237301239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trialController: {fileID: 237301238}
   totalTrials: 3
+  taskType: 1
   completionMessage: {fileID: 563907927}
   pauseMessage: {fileID: 95870050}
 --- !u!114 &237301240
