@@ -14,7 +14,7 @@ public class FlowController : MonoBehaviour
     // TODO: public int totalTrials = trialSpecs.Count; in line 40
 
     [Range(1, 4)]
-    public int taskType = 1; // Can be 1, 2, 3, or 4 (for now, default to 1)
+    public int taskType; // Can be 1, 2, 3, or 4 (for now, default to 1)
 
     // UI text to show on completion
     public Text completionMessage; 
@@ -140,9 +140,20 @@ public class FlowController : MonoBehaviour
                 // Levelt contrast manipulation
                 if (taskType == 1 || taskType == 2 || taskType == 3)
                 {
-                    // Unilateral: left fixed, right varies
-                    spec.contrastL = baseContrast;
-                    spec.contrastR = contrast;
+                    // Unilateral:
+                    // left fixed, right varies
+                    if (Random.value < 0.5f)
+                    {
+                        spec.contrastL = baseContrast;
+                        spec.contrastR = contrast;
+                    }
+                    // right fixed, left varies
+                    else
+                    {
+                        spec.contrastL = contrast;
+                        spec.contrastR = baseContrast;
+                    }
+                    
                 }
                 else if (taskType == 4)
                 {
@@ -153,10 +164,10 @@ public class FlowController : MonoBehaviour
 
                 spec.speedL = 5f;
                 spec.speedR = 5f;
-                spec.frequencyL = 10f;
-                spec.frequencyR = 10f;
-                spec.gaussianSharpnessL = 80f;
-                spec.gaussianSharpnessR = 80f;
+                spec.frequencyL = 25.6f;
+                spec.frequencyR = 25.6f;
+                spec.gaussianSharpnessL = 81.96f;
+                spec.gaussianSharpnessR = 81.96f;
                 spec.isControl = (spec.directionL == spec.directionR); // Control if both directions are the same
 
                 trialList.Add(spec);
