@@ -51,7 +51,7 @@ public class TrialController : MonoBehaviour
                 if (currentState != previousState)
                 {
                     float timestamp = Time.realtimeSinceStartup - trialStartTime;
-                    logEntries.Add(new TrialData.LogEntry {time = timestamp, state = currentState});
+                    logEntries.Add(new TrialData.LogEntry {time = timestamp * 1000, state = currentState});
                     previousState = currentState;
                 }
 
@@ -69,7 +69,7 @@ public class TrialController : MonoBehaviour
                 if (currentKeyDown != "none")
                 {
                     float timestamp = Time.realtimeSinceStartup - trialStartTime;
-                    logEntries.Add(new TrialData.LogEntry {time = timestamp, state = currentKeyDown});
+                    logEntries.Add(new TrialData.LogEntry {time = timestamp * 1000, state = currentKeyDown});
                 }
 
                 yield return null; // Give unity the control back to update the next frame
@@ -90,7 +90,7 @@ public class TrialController : MonoBehaviour
         {
             trialNumber = trialNumber,
             spec = spec,
-            startTime = trialStartTime,
+            startTime = trialStartTime * 1000,
             logEntries = logEntries,
             taskType = taskType
         };

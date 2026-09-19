@@ -12,6 +12,7 @@ public class FlowController : MonoBehaviour
     public TrialController trialController;
     public int totalTrials = 3; // For now set to 3, but can be altered later to the count of all the variation of specs generated
     // TODO: public int totalTrials = trialSpecs.Count; in line 40
+    public int participantID;
 
     [Range(1, 4)]
     public int taskType; // Can be 1, 2, 3, or 4 (for now, default to 1)
@@ -192,16 +193,42 @@ public class FlowController : MonoBehaviour
 
     private void SaveResults()
     {
-        string path = Path.Combine(Application.persistentDataPath, "trial_results.json");
+        string filename = $"participant_{participantID}_task_{taskType}.json";
         var settings = new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             Formatting = Formatting.Indented
         };
         string json = JsonConvert.SerializeObject(allTrialData, settings);
-        try {File.WriteAllText(path, json);
-        Debug.Log("Results saved to: " + path);}
-        catch (System.Exception e) {Debug.LogError("Failed to save results: " + e.Message);}
+
+        // Save directly to the project Data/ folder (on same level as Analysis)
+        try
+        {
+            string projectDataDir = Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Data"));
+            if (!Directory.Exists(projectDataDir))
+            {
+                Directory.CreateDirectory(projectDataDir);
+            }
+            string projectPath = Path.Combine(projectDataDir, filename);
+            File.WriteAllText(projectPath, json);
+            Debug.Log("Results saved to: " + projectPath);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("Could not save to project Data folder: " + e.Message);
+        }
+
+        // Also save to persistentDataPath as standard backup
+        try
+        {
+            string persistentPath = Path.Combine(Application.persistentDataPath, filename);
+            File.WriteAllText(persistentPath, json);
+            Debug.Log("Backup saved to persistentDataPath: " + persistentPath);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Failed to save results: " + e.Message);
+        }
     }
 
     private IEnumerator ShowCompletionAndClose()
