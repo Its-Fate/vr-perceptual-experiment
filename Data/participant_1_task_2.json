@@ -1,0 +1,926 @@
+[
+  {
+    "trialNumber": 1,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": -1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.7,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 4875.83,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 2380.05933,
+        "state": "up-left"
+      },
+      {
+        "time": 2798.493,
+        "state": "none"
+      },
+      {
+        "time": 3042.283,
+        "state": "up"
+      },
+      {
+        "time": 3353.52368,
+        "state": "none"
+      },
+      {
+        "time": 3630.60913,
+        "state": "up-left"
+      },
+      {
+        "time": 4010.27051,
+        "state": "none"
+      },
+      {
+        "time": 4948.508,
+        "state": "up-left"
+      },
+      {
+        "time": 6687.284,
+        "state": "none"
+      },
+      {
+        "time": 7870.0835,
+        "state": "piecemeal"
+      },
+      {
+        "time": 8069.1167,
+        "state": "none"
+      },
+      {
+        "time": 8683.31,
+        "state": "up-left"
+      },
+      {
+        "time": 9183.121,
+        "state": "none"
+      }
+    ]
+  },
+  {
+    "trialNumber": 2,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": -0.707106769,
+        "y": 0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastL": 0.3,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 19880.7441,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 1243.62939,
+        "state": "up-left"
+      },
+      {
+        "time": 1440.525,
+        "state": "none"
+      },
+      {
+        "time": 1695.01306,
+        "state": "piecemeal"
+      },
+      {
+        "time": 2098.858,
+        "state": "none"
+      },
+      {
+        "time": 2454.08643,
+        "state": "up-left"
+      },
+      {
+        "time": 2732.687,
+        "state": "none"
+      },
+      {
+        "time": 3196.50073,
+        "state": "right"
+      },
+      {
+        "time": 3698.696,
+        "state": "none"
+      },
+      {
+        "time": 3966.99341,
+        "state": "piecemeal"
+      },
+      {
+        "time": 4598.16162,
+        "state": "none"
+      },
+      {
+        "time": 5006.38965,
+        "state": "up-left"
+      },
+      {
+        "time": 5613.07129,
+        "state": "none"
+      },
+      {
+        "time": 5868.68652,
+        "state": "right"
+      },
+      {
+        "time": 6170.89648,
+        "state": "none"
+      },
+      {
+        "time": 9391.535,
+        "state": "right"
+      },
+      {
+        "time": 9610.686,
+        "state": "none"
+      },
+      {
+        "time": 9949.211,
+        "state": "up-left"
+      }
+    ]
+  },
+  {
+    "trialNumber": 3,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": -1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastR": 0.3,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 34888.81,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 1852.01648,
+        "state": "left"
+      },
+      {
+        "time": 2172.21826,
+        "state": "none"
+      },
+      {
+        "time": 2353.49658,
+        "state": "right"
+      },
+      {
+        "time": 2585.102,
+        "state": "none"
+      },
+      {
+        "time": 2804.41284,
+        "state": "right"
+      },
+      {
+        "time": 3333.66016,
+        "state": "none"
+      },
+      {
+        "time": 3584.35449,
+        "state": "right"
+      },
+      {
+        "time": 3762.57324,
+        "state": "none"
+      },
+      {
+        "time": 4046.055,
+        "state": "right"
+      },
+      {
+        "time": 4269.47,
+        "state": "none"
+      },
+      {
+        "time": 4570.591,
+        "state": "right"
+      },
+      {
+        "time": 5107.674,
+        "state": "none"
+      },
+      {
+        "time": 5995.987,
+        "state": "right"
+      },
+      {
+        "time": 6199.05469,
+        "state": "none"
+      },
+      {
+        "time": 6863.079,
+        "state": "right"
+      },
+      {
+        "time": 7086.53662,
+        "state": "none"
+      },
+      {
+        "time": 8539.589,
+        "state": "right"
+      },
+      {
+        "time": 9103.329,
+        "state": "none"
+      },
+      {
+        "time": 9353.012,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9929.615,
+        "state": "none"
+      }
+    ]
+  },
+  {
+    "trialNumber": 4,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastL": 0.9,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": 0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 49894.51,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 1960.0105,
+        "state": "up-right"
+      },
+      {
+        "time": 2699.955,
+        "state": "none"
+      },
+      {
+        "time": 3126.33521,
+        "state": "right"
+      },
+      {
+        "time": 3339.611,
+        "state": "none"
+      },
+      {
+        "time": 3671.95117,
+        "state": "up-right"
+      },
+      {
+        "time": 4059.021,
+        "state": "none"
+      },
+      {
+        "time": 5172.70264,
+        "state": "down"
+      },
+      {
+        "time": 5344.307,
+        "state": "none"
+      },
+      {
+        "time": 5606.533,
+        "state": "right"
+      },
+      {
+        "time": 5773.08643,
+        "state": "none"
+      },
+      {
+        "time": 6303.59668,
+        "state": "piecemeal"
+      },
+      {
+        "time": 7074.15,
+        "state": "none"
+      },
+      {
+        "time": 7551.52148,
+        "state": "piecemeal"
+      },
+      {
+        "time": 8135.09375,
+        "state": "none"
+      },
+      {
+        "time": 8871.868,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9175.399,
+        "state": "none"
+      }
+    ]
+  },
+  {
+    "trialNumber": 5,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": 1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.3,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 0.0,
+        "y": -1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 64902.9531,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 1465.95,
+        "state": "up"
+      },
+      {
+        "time": 1884.18579,
+        "state": "none"
+      },
+      {
+        "time": 2165.81738,
+        "state": "up"
+      },
+      {
+        "time": 2311.62256,
+        "state": "none"
+      },
+      {
+        "time": 2634.36133,
+        "state": "piecemeal"
+      },
+      {
+        "time": 2853.08838,
+        "state": "none"
+      },
+      {
+        "time": 3789.70337,
+        "state": "up"
+      },
+      {
+        "time": 4797.493,
+        "state": "none"
+      },
+      {
+        "time": 5164.833,
+        "state": "up"
+      },
+      {
+        "time": 5268.47852,
+        "state": "none"
+      },
+      {
+        "time": 6199.06641,
+        "state": "up"
+      },
+      {
+        "time": 6367.508,
+        "state": "none"
+      },
+      {
+        "time": 7075.68359,
+        "state": "up"
+      },
+      {
+        "time": 7626.44971,
+        "state": "none"
+      },
+      {
+        "time": 8108.50537,
+        "state": "down"
+      },
+      {
+        "time": 8490.326,
+        "state": "none"
+      },
+      {
+        "time": 8844.391,
+        "state": "down"
+      },
+      {
+        "time": 9087.738,
+        "state": "none"
+      },
+      {
+        "time": 9730.583,
+        "state": "up"
+      },
+      {
+        "time": 9956.527,
+        "state": "none"
+      }
+    ]
+  },
+  {
+    "trialNumber": 6,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": 1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastR": 0.7,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 79908.29,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 1426.83411,
+        "state": "left"
+      },
+      {
+        "time": 1695.15991,
+        "state": "none"
+      },
+      {
+        "time": 2133.32373,
+        "state": "piecemeal"
+      },
+      {
+        "time": 2579.50586,
+        "state": "none"
+      },
+      {
+        "time": 5249.817,
+        "state": "down-left"
+      },
+      {
+        "time": 5743.248,
+        "state": "none"
+      },
+      {
+        "time": 6151.253,
+        "state": "piecemeal"
+      },
+      {
+        "time": 6695.29736,
+        "state": "none"
+      },
+      {
+        "time": 7647.812,
+        "state": "left"
+      },
+      {
+        "time": 8300.842,
+        "state": "none"
+      },
+      {
+        "time": 8820.709,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9355.148,
+        "state": "none"
+      },
+      {
+        "time": 9982.628,
+        "state": "piecemeal"
+      }
+    ]
+  },
+  {
+    "trialNumber": 7,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastL": 0.9,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 94914.12,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 1492.51563,
+        "state": "up-right"
+      },
+      {
+        "time": 2242.17236,
+        "state": "none"
+      },
+      {
+        "time": 2955.74951,
+        "state": "up-right"
+      },
+      {
+        "time": 3472.88525,
+        "state": "none"
+      },
+      {
+        "time": 5175.90332,
+        "state": "up-right"
+      },
+      {
+        "time": 5496.78027,
+        "state": "none"
+      },
+      {
+        "time": 6373.161,
+        "state": "up-left"
+      },
+      {
+        "time": 6667.77051,
+        "state": "none"
+      },
+      {
+        "time": 8412.201,
+        "state": "left"
+      },
+      {
+        "time": 8880.409,
+        "state": "none"
+      },
+      {
+        "time": 9248.642,
+        "state": "up"
+      },
+      {
+        "time": 9674.851,
+        "state": "none"
+      },
+      {
+        "time": 9898.117,
+        "state": "piecemeal"
+      }
+    ]
+  },
+  {
+    "trialNumber": 8,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": -1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.1,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 109922.078,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 2117.75977,
+        "state": "up-left"
+      },
+      {
+        "time": 2513.60327,
+        "state": "none"
+      },
+      {
+        "time": 2925.11743,
+        "state": "up-left"
+      },
+      {
+        "time": 3474.4873,
+        "state": "none"
+      },
+      {
+        "time": 4067.14624,
+        "state": "up"
+      },
+      {
+        "time": 4243.30127,
+        "state": "none"
+      },
+      {
+        "time": 4575.14941,
+        "state": "up-left"
+      },
+      {
+        "time": 5227.56934,
+        "state": "none"
+      },
+      {
+        "time": 6235.626,
+        "state": "piecemeal"
+      },
+      {
+        "time": 6413.788,
+        "state": "none"
+      },
+      {
+        "time": 7630.623,
+        "state": "up-left"
+      },
+      {
+        "time": 8508.781,
+        "state": "none"
+      },
+      {
+        "time": 9142.067,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9322.372,
+        "state": "none"
+      }
+    ]
+  },
+  {
+    "trialNumber": 9,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": -0.707106769,
+        "y": 0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 0.707106769,
+        "y": 0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.1,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 124926.266,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 2260.04785,
+        "state": "down-right"
+      },
+      {
+        "time": 2482.17773,
+        "state": "none"
+      },
+      {
+        "time": 3467.804,
+        "state": "down-right"
+      },
+      {
+        "time": 3916.29028,
+        "state": "none"
+      },
+      {
+        "time": 4653.86963,
+        "state": "down-right"
+      },
+      {
+        "time": 4875.015,
+        "state": "none"
+      },
+      {
+        "time": 5430.634,
+        "state": "piecemeal"
+      },
+      {
+        "time": 5664.566,
+        "state": "none"
+      },
+      {
+        "time": 6606.018,
+        "state": "down-right"
+      },
+      {
+        "time": 6930.496,
+        "state": "none"
+      },
+      {
+        "time": 7558.24268,
+        "state": "right"
+      },
+      {
+        "time": 7778.50342,
+        "state": "none"
+      },
+      {
+        "time": 8278.29,
+        "state": "down-right"
+      },
+      {
+        "time": 8817.581,
+        "state": "none"
+      },
+      {
+        "time": 9342.758,
+        "state": "down-right"
+      },
+      {
+        "time": 9522.995,
+        "state": "none"
+      },
+      {
+        "time": 9948.242,
+        "state": "piecemeal"
+      }
+    ]
+  },
+  {
+    "trialNumber": 10,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": -1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastR": 0.3,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 139931.609,
+    "taskType": 2,
+    "logEntries": [
+      {
+        "time": 923.00415,
+        "state": "up"
+      },
+      {
+        "time": 1431.99158,
+        "state": "none"
+      },
+      {
+        "time": 1696.24329,
+        "state": "up"
+      },
+      {
+        "time": 2176.33057,
+        "state": "none"
+      },
+      {
+        "time": 3218.53638,
+        "state": "left"
+      },
+      {
+        "time": 3509.59766,
+        "state": "none"
+      },
+      {
+        "time": 4427.3833,
+        "state": "up"
+      },
+      {
+        "time": 4706.34473,
+        "state": "none"
+      },
+      {
+        "time": 5830.82568,
+        "state": "up-right"
+      },
+      {
+        "time": 6003.372,
+        "state": "none"
+      },
+      {
+        "time": 6767.807,
+        "state": "up"
+      },
+      {
+        "time": 7191.89453,
+        "state": "none"
+      },
+      {
+        "time": 9362.427,
+        "state": "up"
+      },
+      {
+        "time": 9669.144,
+        "state": "none"
+      }
+    ]
+  }
+]

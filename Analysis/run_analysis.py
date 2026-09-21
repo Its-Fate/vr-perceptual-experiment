@@ -1,4 +1,4 @@
-﻿"""
+"""
 Run Post-Experiment Analysis from Command Line
 ----------------------------------------------
 Executes the 1-to-1 Task-Proposition analysis pipeline:
@@ -19,6 +19,18 @@ import seaborn as sns
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import analyzer
+
+def safe_savefig(filepath, fig=None, **kwargs):
+    """Safely saves a matplotlib figure, removing existing files first to avoid WSL Errno 22 (w+b bug)."""
+    if os.path.exists(filepath):
+        try:
+            os.remove(filepath)
+        except OSError:
+            pass
+    if fig is not None:
+        fig.savefig(filepath, **kwargs)
+    else:
+        plt.savefig(filepath, **kwargs)
 
 def main():
     data_dir = sys.argv[1] if len(sys.argv) > 1 else analyzer.get_data_dir()
@@ -44,11 +56,14 @@ def main():
     
     print("[4/5] Generating 1-to-1 Task <-> Proposition Figures...")
     sns.set_theme(style="whitegrid", font_scale=1.1)
+
+    # Separate rivalry trials from control trials for analysis
+    rivalry_df = df[df["isControl"] == False]
     
-    t1_df = df[df["taskType"] == 1]
-    t2_df = df[df["taskType"] == 2]
-    t3_df = df[df["taskType"] == 3]
-    t4_df = df[df["taskType"] == 4]
+    t1_df = rivalry_df[rivalry_df["taskType"] == 1]
+    t2_df = rivalry_df[rivalry_df["taskType"] == 2]
+    t3_df = rivalry_df[rivalry_df["taskType"] == 3]
+    t4_df = rivalry_df[rivalry_df["taskType"] == 4]
     
     # Task 1 -> Proposition I: Predominance
     if not t1_df.empty:
@@ -63,7 +78,7 @@ def main():
         plt.ylim(0, 100)
         plt.legend()
         plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, "task1_prop1_predominance.png"), dpi=150)
+        safe_savefig(os.path.join(output_dir, "task1_prop1_predominance.png"), dpi=150)
         plt.close()
         print("  - Generated Task 1 (Prop I) plot.")
     else:
@@ -71,16 +86,16 @@ def main():
         
     # Task 2 -> Proposition II: Mean Dominance Duration vs. Interocular Difference
     if not t2_df.empty:
-        summary_p2 = t2_df.groupby("contrastDifference")[["meanDurationStrongerMs", "meanDurationWeakerMs"]].mean().reset_index()
-        plt.figure(figsize=(9, 5))
-        plt.plot(summary_p2["contrastDifference"], summary_p2["meanDurationStrongerMs"] / 1000.0, marker="o", lw=2.5, color="#27ae60", label="Stronger Stimulus Mean Duration (s)")
-        plt.plot(summary_p2["contrastDifference"], summary_p2["meanDurationWeakerMs"] / 1000.0, marker="s", lw=2.5, color="#c0392b", label="Weaker Stimulus Mean Duration (s)")
+        summary_p2 = t2_df.groupby("contrastVariable")[["meanDurationVariableMs", "meanDurationFixedMs"]].mean().reset_index()
+        plt.figure(figsize=(10, 5))
+        plt.plot(summary_p2["contrastVariable"], summary_p2["meanDurationVariableMs"] / 1000.0, marker="o", lw=2.5, color="#27ae60", label="Variable Eye Mean Duration (s)")
+        plt.plot(summary_p2["contrastVariable"], summary_p2["meanDurationFixedMs"] / 1000.0, marker="s", lw=2.5, color="#c0392b", label="Fixed Eye Mean Duration (s)")
         plt.title("Task 2: Proposition II - Dominance Duration vs. Interocular Difference (|CL - CR|)", fontsize=14, fontweight="bold")
-        plt.xlabel("Difference in Stimulus Strength (|CL - CR|)")
+        plt.xlabel("Variable Eye Contrast Level")
         plt.ylabel("Mean Duration (seconds)")
         plt.legend()
         plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, "task2_prop2_duration_vs_diff.png"), dpi=150)
+        safe_savefig(os.path.join(output_dir, "task2_prop2_duration_vs_diff.png"), dpi=150)
         plt.close()
         print("  - Generated Task 2 (Prop II) plot.")
     else:
@@ -88,15 +103,22 @@ def main():
         
     # Task 3 -> Proposition III: Alternation Rate vs. Interocular Difference
     if not t3_df.empty:
-        summary_p3 = t3_df.groupby("contrastDifference")["switchRatePerMin"].mean().reset_index()
-        plt.figure(figsize=(9, 5))
-        plt.plot(summary_p3["contrastDifference"], summary_p3["switchRatePerMin"], marker="o", color="#8e44ad", lw=2.5, label="Alternation Rate")
-        plt.title("Task 3: Proposition III - Alternation Rate vs. Interocular Difference (|CL - CR|)", fontsize=14, fontweight="bold")
-        plt.xlabel("Difference in Stimulus Strength (|CL - CR|)")
+        summary_p3 = t3_df.groupby("contrastVariable")["switchRatePerMin"].mean().reset_index()
+        plt.figure(figsize=(10, 5))
+        plt.plot(summary_p3["contrastVariable"], summary_p3["switchRatePerMin"], 
+                marker="o", color="#8e44ad", lw=2.5, label="Alternation Rate")
+        # Highlight the zero-difference reference
+        plt.axvline(x=0.5, color="gray", linestyle=":", alpha=0.7)
+        plt.text(0.5, plt.ylim()[1] * 0.95, "Equal Contrast\n(|CL - CR| = 0)", 
+                ha="center", va="top", fontsize=10, color="#555555",
+                bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
+        plt.title("Task 3: Proposition III - Alternation Rate vs. Interocular Difference (|CL - CR|)", fontsize=13, fontweight="bold")
+        plt.xlabel("Variable Eye Contrast Level (Fixed Eye = 0.5)\n[Difference |CL - CR|:  0.4 ← 0.2 ← 0.0 → 0.2 → 0.4]", fontsize=11)
         plt.ylabel("Alternation Rate (switches / min)")
-        plt.legend()
+        plt.xticks([0.1, 0.3, 0.5, 0.7, 0.9])
+        plt.legend(loc="lower center")
         plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, "task3_prop3_alternation_vs_diff.png"), dpi=150)
+        safe_savefig(os.path.join(output_dir, "task3_prop3_alternation_vs_diff.png"), dpi=150)
         plt.close()
         print("  - Generated Task 3 (Prop III) plot.")
     else:
@@ -112,13 +134,25 @@ def main():
         plt.ylabel("Alternation Rate (switches / min)")
         plt.legend()
         plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, "task4_prop4_bilateral_alternation.png"), dpi=150)
+        safe_savefig(os.path.join(output_dir, "task4_prop4_bilateral_alternation.png"), dpi=150)
         plt.close()
         print("  - Generated Task 4 (Prop IV) plot.")
     else:
         print("  - Task 4: No data found yet.")
         
-    print(f"[5/5] Analysis complete! Output figures and summary CSV written to: {output_dir}")
+    # All-trials timeline dashboard (Tasks 1 & 2 only)
+    print("[5/5] Generating continuous-holding trials timeline dashboard...")
+    holding_trials = [t for t in trials if t.get("taskType", 1) in (1, 2)]
+    fig_timeline = analyzer.plot_all_trials_timeline(
+        holding_trials,
+        title=f"Participant {df['participantID'].iloc[0] if not df.empty else '?'} – Holding Tasks Percept Timeline",
+    )
+    timeline_path = os.path.join(output_dir, "continuous_holding_timeline.png")
+    safe_savefig(timeline_path, fig=fig_timeline, dpi=150, bbox_inches="tight")
+    plt.close(fig_timeline)
+    print(f"  - Saved continuous-holding timeline to: {timeline_path}")
+
+    print(f"[6/6] Analysis complete! Output figures and summary CSV written to: {output_dir}")
 
 if __name__ == "__main__":
     main()

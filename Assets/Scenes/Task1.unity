@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trialController: {fileID: 237301238}
-  totalTrials: 3
+  totalTrials: 10
   participantID: 1
   taskType: 1
   completionMessage: {fileID: 563907927}

@@ -1,0 +1,510 @@
+[
+  {
+    "trialNumber": 1,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": -1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 5043.31055,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 880.9929,
+        "state": "up"
+      },
+      {
+        "time": 2463.80713,
+        "state": "up-left"
+      },
+      {
+        "time": 3647.00073,
+        "state": "right"
+      },
+      {
+        "time": 4452.64844,
+        "state": "piecemeal"
+      },
+      {
+        "time": 5686.195,
+        "state": "up"
+      },
+      {
+        "time": 6080.733,
+        "state": "piecemeal"
+      },
+      {
+        "time": 6883.1123,
+        "state": "up"
+      }
+    ]
+  },
+  {
+    "trialNumber": 2,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": 1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastR": 0.3,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 20050.084,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 1510.08984,
+        "state": "down"
+      },
+      {
+        "time": 3228.01978,
+        "state": "left"
+      },
+      {
+        "time": 4760.99951,
+        "state": "down"
+      },
+      {
+        "time": 5524.065,
+        "state": "left"
+      },
+      {
+        "time": 7781.439,
+        "state": "down-left"
+      },
+      {
+        "time": 9772.749,
+        "state": "down"
+      }
+    ]
+  },
+  {
+    "trialNumber": 3,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": -1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 0.707106769,
+        "y": 0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 35056.37,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 4287.30762,
+        "state": "down-left"
+      },
+      {
+        "time": 7590.145,
+        "state": "piecemeal"
+      },
+      {
+        "time": 8077.55273,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9153.408,
+        "state": "right"
+      }
+    ]
+  },
+  {
+    "trialNumber": 4,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastL": 0.1,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 50063.24,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 1940.33057,
+        "state": "up-left"
+      },
+      {
+        "time": 4612.9,
+        "state": "right"
+      },
+      {
+        "time": 5703.236,
+        "state": "up-left"
+      },
+      {
+        "time": 6623.93164,
+        "state": "right"
+      },
+      {
+        "time": 8175.81543,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9408.241,
+        "state": "up-left"
+      }
+    ]
+  },
+  {
+    "trialNumber": 5,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": 1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.7,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 65063.46,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 1470.35217,
+        "state": "up-left"
+      },
+      {
+        "time": 2928.07764,
+        "state": "down"
+      },
+      {
+        "time": 5909.714,
+        "state": "up-left"
+      },
+      {
+        "time": 7309.59326,
+        "state": "right"
+      },
+      {
+        "time": 7768.26465,
+        "state": "down"
+      },
+      {
+        "time": 8968.658,
+        "state": "piecemeal"
+      }
+    ]
+  },
+  {
+    "trialNumber": 6,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": -1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": 0.707106769,
+        "y": 0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.1,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 80069.94,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 1102.24146,
+        "state": "up"
+      },
+      {
+        "time": 7063.08,
+        "state": "down-left"
+      },
+      {
+        "time": 8464.79,
+        "state": "up"
+      }
+    ]
+  },
+  {
+    "trialNumber": 7,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": -1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.9,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 95077.2,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 1863.884,
+        "state": "right"
+      },
+      {
+        "time": 4134.85742,
+        "state": "up-left"
+      },
+      {
+        "time": 6007.91943,
+        "state": "right"
+      },
+      {
+        "time": 7128.471,
+        "state": "piecemeal"
+      },
+      {
+        "time": 7926.567,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9151.924,
+        "state": "right"
+      }
+    ]
+  },
+  {
+    "trialNumber": 8,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": -1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.1,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastR": 0.5,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": true
+    },
+    "startTime": 110083.68,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 792.633057,
+        "state": "right"
+      },
+      {
+        "time": 7533.69141,
+        "state": "piecemeal"
+      },
+      {
+        "time": 8568.588,
+        "state": "piecemeal"
+      },
+      {
+        "time": 9035.37,
+        "state": "right"
+      }
+    ]
+  },
+  {
+    "trialNumber": 9,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": 0.0,
+        "y": 1.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": -0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.3,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 125089.594,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 1179.32129,
+        "state": "down"
+      },
+      {
+        "time": 9461.067,
+        "state": "piecemeal"
+      }
+    ]
+  },
+  {
+    "trialNumber": 10,
+    "spec": {
+      "speedL": 5.0,
+      "directionL": {
+        "x": -1.0,
+        "y": 0.0,
+        "magnitude": 1.0,
+        "sqrMagnitude": 1.0
+      },
+      "contrastL": 0.5,
+      "frequencyL": 25.6,
+      "gaussianSharpnessL": 81.96,
+      "speedR": 5.0,
+      "directionR": {
+        "x": -0.707106769,
+        "y": 0.707106769,
+        "magnitude": 1.0,
+        "sqrMagnitude": 0.99999994
+      },
+      "contrastR": 0.7,
+      "frequencyR": 25.6,
+      "gaussianSharpnessR": 81.96,
+      "isControl": false
+    },
+    "startTime": 140095.141,
+    "taskType": 3,
+    "logEntries": [
+      {
+        "time": 898.7732,
+        "state": "piecemeal"
+      },
+      {
+        "time": 1982.08618,
+        "state": "piecemeal"
+      },
+      {
+        "time": 3831.22266,
+        "state": "down-right"
+      },
+      {
+        "time": 6223.49561,
+        "state": "right"
+      },
+      {
+        "time": 6977.56934,
+        "state": "down-right"
+      },
+      {
+        "time": 7595.444,
+        "state": "piecemeal"
+      },
+      {
+        "time": 8183.13574,
+        "state": "piecemeal"
+      },
+      {
+        "time": 8535.949,
+        "state": "right"
+      }
+    ]
+  }
+]

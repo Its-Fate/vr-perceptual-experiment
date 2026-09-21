@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import seaborn as sns
 from typing import List, Dict, Any, Tuple, Optional
 
@@ -265,7 +266,7 @@ def compute_trial_metrics(trial: Dict[str, Any], default_duration_ms: Optional[f
     contrast_r = float(spec.get("contrastR", 0.5))
     is_control = spec.get("isControl", False)
     
-    # Difference and ratio in stimulus strength (Brascamp et al., 2015)
+    # Difference and ratio in stimulus strength
     contrast_diff = round(abs(contrast_l - contrast_r), 3)
     contrast_max = max(contrast_l, contrast_r)
     contrast_min = min(contrast_l, contrast_r)
@@ -275,7 +276,7 @@ def compute_trial_metrics(trial: Dict[str, Any], default_duration_ms: Optional[f
     if task_type == 4:
         var_eye = "both"
         contrast_var = contrast_l
-        contrast_fix = contrast_l
+        contrast_fix = contrast_l  # We don't really have a fixed eye in this case, but we don't change the variable name for the sake of simplicity
     else:
         if contrast_l != 0.5 and contrast_r == 0.5:
             var_eye = "left"
@@ -312,16 +313,22 @@ def compute_trial_metrics(trial: Dict[str, Any], default_duration_ms: Optional[f
     tot_none = max(0.0, total_trial_ms - tot_active)
     
     # Predominance / Dominance % (Proposition I)
-    pct_left = (tot_left / total_trial_ms) * 100.0
-    pct_right = (tot_right / total_trial_ms) * 100.0
-    pct_piece = (tot_piece / total_trial_ms) * 100.0
-    pct_total_rivalry = ((tot_left + tot_right) / total_trial_ms) * 100.0
+    if tot_active > 0:
+        pct_left = (tot_left / tot_active) * 100.0
+        pct_right = (tot_right / tot_active) * 100.0
+        pct_piece = (tot_piece / tot_active) * 100.0
+        pct_total_rivalry = ((tot_left + tot_right) / tot_active) * 100.0
+    else:
+        pct_left = np.nan
+        pct_right = np.nan
+        pct_piece = np.nan
+        pct_total_rivalry = np.nan
     
-    mean_dur_left = np.mean(durations["left"]) if len(durations["left"]) > 0 else 0.0
-    mean_dur_right = np.mean(durations["right"]) if len(durations["right"]) > 0 else 0.0
-    mean_dur_piece = np.mean(durations["piecemeal"]) if len(durations["piecemeal"]) > 0 else 0.0
+    mean_dur_left = np.mean(durations["left"]) if len(durations["left"]) > 0 else np.nan
+    mean_dur_right = np.mean(durations["right"]) if len(durations["right"]) > 0 else np.nan
+    mean_dur_piece = np.mean(durations["piecemeal"]) if len(durations["piecemeal"]) > 0 else np.nan
     
-    # Stronger vs. Weaker Stimulus Metrics (Proposition II: Brascamp et al., 2015)
+    # Stronger vs. Weaker Stimulus Metrics (Proposition II)
     if contrast_l > contrast_r:
         stronger_eye = "left"
         weaker_eye = "right"
@@ -362,7 +369,7 @@ def compute_trial_metrics(trial: Dict[str, Any], default_duration_ms: Optional[f
         pct_fix = pct_right
         
     # Alternation rate (Propositions III & IV)
-    switch_count = len(episodes)
+    switch_count = len(episodes) - 1
     trial_minutes = total_trial_ms / 60000.0
     switch_rate_per_min = switch_count / trial_minutes if trial_minutes > 0 else 0.0
     
@@ -404,6 +411,209 @@ def compute_trial_metrics(trial: Dict[str, Any], default_duration_ms: Optional[f
         "switchRatePerMin": switch_rate_per_min,
         "_episodes": episodes
     }
+
+def plot_all_trials_timeline(trials: List[Dict[str, Any]], title: str = "All Trials – Percept Timeline", row_height: float = 0.55, fig_width: float = 14.0,) -> Figure:
+    """
+    Renders every trial as a horizontal bar row, grouped and ordered by taskType.
+
+    Layout
+    ------
+    - One row per trial, sorted by (taskType, trialNumber).
+    - A thick horizontal separator line + bold task label is drawn between tasks.
+    - Colour key: blue = left-eye dominant, red = right-eye dominant,
+      yellow = piecemeal, light-green = none, grey = unknown.
+
+    Parameters
+    ----------
+    trials      : raw trial dicts as returned by load_all_trials().
+    title       : overall figure title.
+    row_height  : height (inches) allocated to each trial row.
+    fig_width   : total figure width in inches.
+
+    Returns
+    -------
+    matplotlib Figure object (caller is responsible for saving / showing it).
+    """
+    COLOR_MAP = {
+        "left":      "#3498db",  # blue
+        "right":     "#e74c3c",  # red
+        "piecemeal": "#f1c40f",  # yellow
+        "none":      "#d5f5d3",  # very light green
+        "unknown":   "#999999",  # grey
+    }
+    TASK_COLORS = {1: "#1a6ebd", 2: "#27ae60", 3: "#8e44ad", 4: "#d35400"}
+    TASK_LABELS = {
+        1: "Task 1 – Holding / Unilateral (Prop. I: Predominance)",
+        2: "Task 2 – Holding / Unilateral (Prop. II: Duration vs. Difference)",
+        3: "Task 3 – Tapping / Unilateral (Prop. III: Alternation Rate vs. Difference)",
+        4: "Task 4 – Tapping / Bilateral (Prop. IV: Alternation Rate vs. Bilateral Contrast)",
+    }
+
+    # 1. Sort trials by (taskType, trialNumber)
+    sorted_trials = sorted(
+        trials,
+        key=lambda t: (t.get("taskType", 1), t.get("trialNumber", 0)),
+    )
+
+    # 2. Build row metadata
+    # Each element: (trial_dict, episodes, label_str)
+    rows = []
+    for t in sorted_trials:
+        eps = extract_trial_episodes(t)
+        task = t.get("taskType", 1)
+        trial_num = t.get("trialNumber", "?")
+        spec = t.get("spec", {})
+        cl = spec.get("contrastL", "?")
+        cr = spec.get("contrastR", "?")
+        is_ctrl = spec.get("isControl", False)
+        ctrl_tag = " [ctrl]" if is_ctrl else ""
+        label = f"T{trial_num}{ctrl_tag}  CL={cl:.2f} CR={cr:.2f}"
+        rows.append((t, eps, label, task))
+
+    n_rows = len(rows)
+    if n_rows == 0:
+        fig, ax = plt.subplots()
+        ax.text(0.5, 0.5, "No trials loaded.", ha="center", va="center")
+        return fig
+
+    # 3. Create figure
+    # Extra vertical space: 1.4 in per task group header + padding
+    n_tasks = len({r[3] for r in rows})
+    fig_height = max(4.0, n_rows * row_height + n_tasks * 1.4 + 1.5)
+    fig, ax = plt.subplots(figsize=(fig_width, fig_height))
+    ax.set_xlim(0, 1)  # normalised to [0, 1] – rescaled per trial
+    ax.axis("off")     # we draw everything manually
+
+    # 4. Lay out rows top-to-bottom 
+    TOP_MARGIN = 0.97        # fraction of figure height
+    BOTTOM_MARGIN = 0.03
+    usable = TOP_MARGIN - BOTTOM_MARGIN
+
+    # Vertical unit in figure-fraction space
+    TASK_SEP_H  = 1.4 / fig_height   # height consumed by each task header
+    ROW_H       = row_height / fig_height
+
+    total_units = n_rows * ROW_H + n_tasks * TASK_SEP_H
+    # Normalise so everything fits in [BOTTOM_MARGIN, TOP_MARGIN]
+    scale = usable / total_units if total_units > 0 else 1.0
+    row_h_f   = ROW_H    * scale
+    task_sep_f = TASK_SEP_H * scale
+
+    cursor = TOP_MARGIN       # y position in figure-fraction, going DOWN
+    prev_task = None
+
+    for (trial_dict, eps, label, task) in rows:
+        # Task header separator 
+        if task != prev_task:
+            # Horizontal divider line
+            line_y = cursor - task_sep_f * 0.15
+            ax.plot(
+                [0.01, 0.99], [line_y, line_y],
+                color=TASK_COLORS.get(task, "#333333"),
+                linewidth=2.5,
+                transform=ax.transAxes,
+                zorder=5,
+            )
+            # Task label text
+            label_y = cursor - task_sep_f * 0.6
+            ax.text(
+                0.5, label_y,
+                TASK_LABELS.get(task, f"Task {task}"),
+                transform=ax.transAxes,
+                ha="center", va="center",
+                fontsize=10, fontweight="bold",
+                color=TASK_COLORS.get(task, "#333333"),
+            )
+            cursor -= task_sep_f
+            prev_task = task
+
+        # Determine trial time window 
+        log_entries = trial_dict.get("logEntries", [])
+        max_t = max((e.get("time", 0.0) for e in log_entries), default=10000.0)
+        total_ms = 60000.0 if max_t > 15000.0 else 10000.0
+        if eps:
+            total_ms = max(total_ms, max(e["end_ms"] for e in eps))
+
+        # Row bounding box (in axes-fraction coords) 
+        row_top    = cursor
+        row_bottom = cursor - row_h_f
+        row_mid    = (row_top + row_bottom) / 2.0
+
+        bar_h = row_h_f * 0.70   # bar height within the row slot
+
+        # Draw "none" background for the full trial span 
+        ax.barh(
+            row_mid, 1.0, left=0.0,
+            height=bar_h,
+            color=COLOR_MAP["none"],
+            edgecolor="none",
+            transform=ax.transAxes,
+            zorder=2,
+        )
+
+        # Draw each episode
+        for ep in eps:
+            x_start = ep["start_ms"] / total_ms
+            x_width = ep["duration_ms"] / total_ms
+            dom = ep["dominance"]
+            if dom == "none":
+                continue  # already drawn as background
+            ax.barh(
+                row_mid, x_width, left=x_start,
+                height=bar_h,
+                color=COLOR_MAP.get(dom, COLOR_MAP["unknown"]),
+                edgecolor="black", linewidth=0.3,
+                transform=ax.transAxes,
+                zorder=3,
+            )
+
+        # Row label on the left
+        ax.text(
+            0.002, row_mid,
+            label,
+            transform=ax.transAxes,
+            ha="left", va="center",
+            fontsize=6.5,
+            color="#222222",
+            zorder=6,
+        )
+
+        # Thin border around the whole row
+        import matplotlib.patches as mpatches
+        rect = mpatches.FancyBboxPatch(
+            (0.0, row_bottom), 1.0, row_h_f,
+            boxstyle="square,pad=0",
+            linewidth=0.4,
+            edgecolor="#aaaaaa",
+            facecolor="none",
+            transform=ax.transAxes,
+            zorder=4,
+        )
+        ax.add_patch(rect)
+
+        cursor -= row_h_f
+
+    # 5. Legend & title
+    import matplotlib.patches as mpatches
+    legend_items = [
+        mpatches.Patch(color=COLOR_MAP["left"],      label="Left Eye Dominant"),
+        mpatches.Patch(color=COLOR_MAP["right"],     label="Right Eye Dominant"),
+        mpatches.Patch(color=COLOR_MAP["piecemeal"], label="Piecemeal"),
+        mpatches.Patch(color=COLOR_MAP["none"],      label="None (motor gap)"),
+        mpatches.Patch(color=COLOR_MAP["unknown"],   label="Unknown"),
+    ]
+    ax.legend(
+        handles=legend_items,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.0),
+        ncol=5,
+        fontsize=8,
+        framealpha=0.9,
+        edgecolor="#cccccc",
+    )
+    fig.suptitle(title, fontsize=13, fontweight="bold", y=1.0)
+    fig.tight_layout(rect=(0.0, 0.04, 1.0, 0.99))
+    return fig
 
 def build_summary_dataframe(trials: List[Dict[str, Any]]) -> pd.DataFrame:
     """Builds a comprehensive pandas DataFrame for all trials."""

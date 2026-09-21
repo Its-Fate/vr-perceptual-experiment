@@ -10,7 +10,7 @@ public class FlowController : MonoBehaviour
     [Header("References")]
     // To be assigned in Inspector
     public TrialController trialController;
-    public int totalTrials = 3; // For now set to 3, but can be altered later to the count of all the variation of specs generated
+    public int totalTrials = 10; // For now set to 10, but can be altered later to the count of all the variation of specs generated
     // TODO: public int totalTrials = trialSpecs.Count; in line 40
     public int participantID;
 
